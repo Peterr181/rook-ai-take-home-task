@@ -15,6 +15,7 @@ type StoreState = {
   setVisibleCards: (cards: ListItem[]) => void;
   deleteCard: (id: number, title: string, isVisible: boolean) => void;
   revealDeletedCards: () => void;
+  hideDeletedCards: () => void;
 };
 
 export const useCardStore = create<StoreState>((set) => ({
@@ -22,8 +23,14 @@ export const useCardStore = create<StoreState>((set) => ({
   visibleCards: [],
   showDeletedCards: false,
   setVisibleCards: (cards: ListItem[]) => {
-    set({ visibleCards: cards });
-    localStorage.setItem("visibleCards", JSON.stringify(cards));
+    set((state) => {
+      const filteredCards = cards.filter(
+        (card) =>
+          !state.deletedCards.some((deletedCard) => deletedCard.id === card.id)
+      );
+      localStorage.setItem("visibleCards", JSON.stringify(filteredCards));
+      return { visibleCards: filteredCards };
+    });
   },
   deleteCard: (id: number, title: string, isVisible: boolean) => {
     set((state) => {
@@ -45,6 +52,10 @@ export const useCardStore = create<StoreState>((set) => ({
   revealDeletedCards: () => {
     set({ showDeletedCards: true });
     localStorage.setItem("showDeletedCards", "true");
+  },
+  hideDeletedCards: () => {
+    set({ showDeletedCards: false });
+    localStorage.setItem("showDeletedCards", "false");
   },
 }));
 
