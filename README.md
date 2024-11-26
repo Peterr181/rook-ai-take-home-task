@@ -32,3 +32,10 @@
 
 You may leave a message explaining your coding choices, but it's not necessary.
 Testing framework isn't installed, so instead just explain whether you think it's a good or bad idea to write tests for this feature or how to approach it.
+
+
+### Possibilities to test in future
+
+For unit testing, test individual functions and methods separately, like deleteCard, setVisibleCards, and other store actions.
+You should also mock API calls in useGetListData to simulate different scenarios such as successful data fetches, errors, and loading states.
+For component testing, test React components like Entrypoint, CardList, and Card to make sure they render properly with different props. Additionally, use React Testing Library to simulate user interactions, like clicking buttons or expanding cards, and check if the expected outcomes occur.
